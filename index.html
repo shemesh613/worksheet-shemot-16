@@ -327,15 +327,40 @@ function onRes(r){
 }
 
 function gesture(l){
-  var tT=l[4],tM=l[2],iM=l[5];
-  var iC=l[8].y>l[6].y,mC=l[12].y>l[10].y,rC=l[16].y>l[14].y,pC=l[20].y>l[18].y;
-  var cur=iC&&mC&&rC&&pC;
-  var ext=Math.abs(tT.x-iM.x)>.05||Math.abs(tT.y-iM.y)>.08;
+  var tT=l[4],tIP=l[3],tM=l[2],wrist=l[0],iM=l[5];
+  // Finger tips & PIPs
+  var iy=l[8].y,ipy=l[6].y,my=l[12].y,mpy=l[10].y;
+  var ry=l[16].y,rpy=l[14].y,py=l[20].y,ppy=l[18].y;
+
+  // Thumb must be extended away from palm
+  var ext=Math.abs(tT.x-iM.x)>.04||Math.abs(tT.y-iM.y)>.06;
   if(!ext)return null;
-  if(cur||(iC&&mC)){
-    if(tT.y<tM.y-.04)return'up';
-    if(tT.y>tM.y+.04)return'down';
+
+  // Thumb direction: how far tip is from MCP vertically
+  var thumbUp=tT.y<tM.y-.03;
+  var thumbDown=tT.y>tM.y+.03;
+
+  // For THUMBS UP: hand upright, fingers curled (tips below PIPs)
+  if(thumbUp){
+    var curled=iy>ipy&&my>mpy;
+    if(curled)return'up';
   }
+
+  // For THUMBS DOWN: hand inverted — fingers may appear "uncurled" in y
+  // because the whole hand is flipped. So we use different checks:
+  if(thumbDown){
+    // Check 1: classic curled (works if hand partially rotated)
+    var curledDown=iy<ipy&&my<mpy;
+    // Check 2: all fingertips are close together / above wrist (fist pointing down)
+    var fistTight=Math.abs(iy-my)<.08&&Math.abs(ry-py)<.08;
+    // Check 3: thumb tip clearly below wrist
+    var belowWrist=tT.y>wrist.y+.05;
+    // Check 4: thumb tip below all finger tips
+    var belowFingers=tT.y>iy&&tT.y>my;
+
+    if(curledDown||fistTight||belowWrist||belowFingers)return'down';
+  }
+
   return null;
 }
 
