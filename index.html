@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>דף עבודה - שמות פרק ט"ז</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Rubik',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;direction:rtl;overflow-x:hidden}
+.header{text-align:center;padding:25px 20px 15px;color:#fff}
+.header h1{font-size:2.1em;text-shadow:2px 2px 4px rgba(0,0,0,.3);margin-bottom:5px}
+.header h2{font-size:1.2em;font-weight:600;opacity:.9}
+.header .sub{font-size:.9em;opacity:.75;margin-top:6px}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 30px}
+
+/* Glass card */
+.glass{background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border-radius:18px;padding:16px;margin-bottom:18px;text-align:center;border:2px solid rgba(255,255,255,.3);color:#fff}
+
+/* Camera */
+.cam-wrap{position:relative;display:inline-block;border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+#vid{width:300px;height:225px;border-radius:14px;transform:scaleX(-1);display:block;background:#111;object-fit:cover}
+#overlay{position:absolute;top:0;left:0;width:300px;height:225px;border-radius:14px;transform:scaleX(-1);pointer-events:none}
+.gest{margin-top:10px;font-size:1.3em;font-weight:700;min-height:36px}
+.cbtn{background:linear-gradient(135deg,#43e97b,#38f9d7);color:#1a1a2e;border:none;padding:10px 28px;border-radius:50px;font-size:1.05em;font-weight:700;cursor:pointer;font-family:inherit;margin-top:8px;transition:transform .2s}
+.cbtn:hover{transform:scale(1.05)}
+.mtog{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.mbtn{padding:7px 18px;border-radius:50px;border:2px solid rgba(255,255,255,.5);background:rgba(255,255,255,.1);color:#fff;font-family:inherit;font-size:.9em;font-weight:600;cursor:pointer;transition:.3s}
+.mbtn.on{background:rgba(255,255,255,.35);border-color:#fff}
+
+/* Score */
+.sbar{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;position:sticky;top:6px;z-index:100}
+.si{background:rgba(255,255,255,.25);backdrop-filter:blur(12px);padding:8px 18px;border-radius:50px;color:#fff;font-size:1em;font-weight:700;border:2px solid rgba(255,255,255,.35);box-shadow:0 3px 12px rgba(0,0,0,.15)}
+.si span{font-size:1.15em}
+
+/* Section */
+.sec-h{text-align:center;color:#fff;margin:22px 0 14px}
+.sec-h h2{font-size:1.4em;background:rgba(255,255,255,.15);display:inline-block;padding:8px 28px;border-radius:50px;border:2px solid rgba(255,255,255,.3)}
+.sec-h p{font-size:.9em;opacity:.8;margin-top:6px}
+.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);margin:28px 0}
+
+/* Question card */
+.qcard{background:#fff;border-radius:16px;padding:18px 22px;margin-bottom:13px;box-shadow:0 5px 18px rgba(0,0,0,.1);position:relative;overflow:hidden;transition:.3s}
+.qcard::before{content:'';position:absolute;top:0;right:0;width:5px;height:100%;background:linear-gradient(180deg,#667eea,#764ba2);border-radius:0 16px 16px 0}
+.qcard.tb::before{background:linear-gradient(180deg,#f093fb,#f5576c)}
+.qcard.ok{border:3px solid #43e97b}.qcard.ok::before{background:#43e97b!important}
+.qcard.no{border:3px solid #f5365c}.qcard.no::before{background:#f5365c!important}
+.qcard.done{opacity:.7;pointer-events:none}
+.qcard.now{animation:pulse 2s infinite;border:3px solid #667eea}
+
+.qnum{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:50%;font-weight:800;font-size:.95em;margin-left:10px;flex-shrink:0}
+.qnum.pk{background:linear-gradient(135deg,#f093fb,#f5576c)}
+.qtxt{font-size:1.1em;font-weight:600;color:#2d3436;line-height:1.7}
+.qtop{display:flex;align-items:center}
+.qres{margin-top:8px;font-size:1.05em;font-weight:700;display:none;align-items:center;gap:6px}
+.qres.show{display:flex}.qres.cg{color:#00b894}.qres.cw{color:#e74c3c}
+.qbtns{display:flex;gap:14px;margin-top:12px;justify-content:center}
+
+.ab{border:3px solid;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .2s,box-shadow .2s,background .2s}
+.ab:hover{transform:scale(1.1)}.ab:active{transform:scale(.95)}.ab:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
+
+.lk{padding:9px 24px;border-radius:50px;border-color:#00b894;color:#00b894;background:#e8faf5;font-size:1.05em}
+.lk:hover{background:#00b894;color:#fff;box-shadow:0 4px 16px rgba(0,184,148,.4)}
+.dl{padding:9px 24px;border-radius:50px;border-color:#e74c3c;color:#e74c3c;background:#fdeaea;font-size:1.05em}
+.dl:hover{background:#e74c3c;color:#fff;box-shadow:0 4px 16px rgba(231,76,60,.4)}
+
+.vb{width:64px;height:64px;border-radius:50%;border-color:#00b894;color:#00b894;background:#e8faf5;font-size:1.5em;display:flex;align-items:center;justify-content:center;padding:0}
+.vb:hover{background:#00b894;color:#fff;box-shadow:0 5px 18px rgba(0,184,148,.45)}
+.xb{width:64px;height:64px;border-radius:50%;border-color:#e74c3c;color:#e74c3c;background:#fdeaea;font-size:1.5em;display:flex;align-items:center;justify-content:center;padding:0}
+.xb:hover{background:#e74c3c;color:#fff;box-shadow:0 5px 18px rgba(231,76,60,.45)}
+
+/* Finish */
+.fin{display:none;text-align:center;background:rgba(255,255,255,.2);backdrop-filter:blur(10px);border-radius:20px;padding:32px;margin-top:20px;color:#fff;border:2px solid rgba(255,255,255,.3)}
+.fin.show{display:block}
+.fin h2{font-size:1.9em;margin-bottom:8px}
+.fin .fs{font-size:2.6em;font-weight:800;margin:10px 0}
+.fin .stars{font-size:2.3em;margin:8px 0}
+.sbd{display:flex;justify-content:center;gap:16px;margin:12px 0;flex-wrap:wrap}
+.sbd div{background:rgba(255,255,255,.15);padding:8px 18px;border-radius:12px;font-size:1em}
+.rbtn{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;border:none;padding:12px 36px;border-radius:50px;font-size:1.15em;font-weight:700;cursor:pointer;font-family:inherit;margin-top:12px}
+.rbtn:hover{transform:scale(1.06)}
+
+.credit{text-align:center;color:rgba(255,255,255,.5);padding:18px;font-size:.8em}
+
+/* Confetti */
+.cfc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;overflow:hidden}
+.cfp{position:absolute;top:-20px;border-radius:3px;animation:cfall 3s linear forwards}
+@keyframes cfall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(102,126,234,.4)}50%{box-shadow:0 0 0 10px rgba(102,126,234,0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.shake{animation:shake .4s ease-in-out}
+@keyframes pop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+.pop{animation:pop .4s ease-out}
+.hidden{display:none!important}
+.dots::after{content:'';animation:dt 1.5s infinite}
+@keyframes dt{0%{content:'.'}33%{content:'..'}66%{content:'...'}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📖 שמות פרק ט"ז</h1>
+  <h2>פרשת בשלח — המן והשלו</h2>
+  <div class="sub">דף עבודה אינטראקטיבי לכיתה ב' 🌟</div>
+</div>
+<div class="wrap">
+  <div class="glass">
+    <h3 style="margin-bottom:6px">📋 הוראות</h3>
+    <p style="line-height:1.7;opacity:.9">
+      <b>חלק א'</b> — הראו 👍 למצלמה אם נכון, או 👎 אם לא נכון (אפשר גם בכפתורים!)<br>
+      <b>חלק ב'</b> — לחצו ✔ אם נכון או ✖ אם לא נכון &nbsp; בהצלחה! 🍀
+    </p>
+  </div>
+
+  <div class="glass" id="camBox">
+    <div class="cam-wrap">
+      <video id="vid" autoplay playsinline muted></video>
+      <canvas id="overlay" width="300" height="225"></canvas>
+    </div>
+    <div class="gest" id="gd">📷 לחצו להפעלת המצלמה</div>
+    <div><button class="cbtn" id="camBtn">🎥 הפעלת מצלמה</button></div>
+    <div class="mtog">
+      <button class="mbtn on" id="mBtn">🖱️ כפתורים</button>
+      <button class="mbtn" id="mCam">📷 מצלמה</button>
+    </div>
+  </div>
+
+  <div class="sbar">
+    <div class="si">⭐ ניקוד: <span id="sc">0</span>/15</div>
+    <div class="si">👍 א': <span id="sA">0</span>/7</div>
+    <div class="si">✔️ ב': <span id="sB">0</span>/8</div>
+  </div>
+
+  <div class="sec-h"><h2>👍👎 חלק א' — לייק או דיסלייק</h2><p>הראו 👍 למצלמה או לחצו על הכפתור</p></div>
+  <div id="secA"></div>
+  <div class="divider"></div>
+  <div class="sec-h"><h2>✔️✖️ חלק ב' — וי או איקס</h2><p>לחצו ✔ אם נכון או ✖ אם לא נכון</p></div>
+  <div id="secB"></div>
+
+  <div class="fin" id="finBox">
+    <h2>🎉 כל הכבוד! סיימתם!</h2>
+    <div class="fs" id="fsc"></div>
+    <div class="sbd"><div>👍 חלק א': <b id="fA">0</b>/7</div><div>✔️ חלק ב': <b id="fB">0</b>/8</div></div>
+    <div class="stars" id="fSt"></div>
+    <p id="fMsg" style="font-size:1.15em;margin-top:8px"></p>
+    <button class="rbtn" id="rstBtn">🔄 שחקו שוב</button>
+  </div>
+</div>
+<div class="credit">קרדיט: יונתן גילדין</div>
+<div class="cfc" id="cfc"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1675466862/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1675466124/drawing_utils.js" crossorigin="anonymous"></script>
+
+<script>
+var QA=[
+["בני ישראל התלוננו על משה ואהרון במדבר סין כי היו רעבים.",!0],
+["ה' הוריד את המן מן השמים בערב.",!1],
+["השלו (ציפור) הגיע למחנה ישראל בערב.",!0],
+["כל אחד היה צריך ללקוט עומר אחד של מן לכל נפש.",!0],
+["מי שהשאיר מן עד הבוקר — המן נשאר טרי וטעים.",!1],
+["ביום שישי לקטו כמות כפולה של מן — לחם משנה.",!0],
+["בשבת ירד מן מן השמים כרגיל.",!1]
+],QB=[
+["בני ישראל יצאו ממצרים ומיד הגיעו למדבר סין.",!1],
+["בני ישראל אמרו שבמצרים הם ישבו על סיר הבשר ואכלו לחם לשובע.",!0],
+["ה' אמר למשה שהוא ימטיר לחם מן השמים.",!0],
+["בני ישראל היו צריכים ללקוט מן בכל יום כמה שהם רוצים ללא הגבלה.",!1],
+["אהרון אמר לבני ישראל: בערב תדעו כי ה' הוציא אתכם ממצרים.",!1],
+["המן ירד יחד עם שכבת טל בבוקר.",!0],
+["מי שליקט הרבה ומי שליקט מעט — לכולם יצא עומר אחד.",!0],
+["המן שנשמר ליום שבת — הבאיש והתליע.",!1]
+],T=15;
+var sA=0,sB=0,curA=0,dA=Array(7).fill(!1),dB=Array(8).fill(!1);
+var mode='buttons',camOn=!1,mH=null,mCam=null,lastG=null,gCnt=0;
+
+function build(){
+  var a=document.getElementById('secA');a.innerHTML='';
+  for(var i=0;i<QA.length;i++){
+    var c=(!dA[i]&&i===curA)?' now':'';if(dA[i])c+=' done';
+    var hid=(mode==='camera'&&!dA[i])?' hidden':'';
+    a.innerHTML+='<div class="qcard'+c+'" id="a'+i+'"><div class="qtop"><div class="qnum">'+(i+1)+'</div><div class="qtxt">'+QA[i][0]+'</div></div><div class="qbtns'+hid+'" id="ba'+i+'"><button class="ab lk" data-s="A" data-i="'+i+'" data-v="1">👍 נכון</button><button class="ab dl" data-s="A" data-i="'+i+'" data-v="0">👎 לא נכון</button></div><div class="qres" id="ra'+i+'"></div></div>';
+  }
+  var b=document.getElementById('secB');b.innerHTML='';
+  for(var j=0;j<QB.length;j++){
+    var c2=dB[j]?' done':'';
+    b.innerHTML+='<div class="qcard tb'+c2+'" id="b'+j+'"><div class="qtop"><div class="qnum pk">'+(j+1)+'</div><div class="qtxt">'+QB[j][0]+'</div></div><div class="qbtns" id="bb'+j+'"><button class="ab vb" data-s="B" data-i="'+j+'" data-v="1">✔</button><button class="ab xb" data-s="B" data-i="'+j+'" data-v="0">✖</button></div><div class="qres" id="rb'+j+'"></div></div>';
+  }
+}
+
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-s]');if(!b)return;
+  ans(b.getAttribute('data-s'),+b.getAttribute('data-i'),b.getAttribute('data-v')==='1');
+});
+
+function ans(s,i,v){
+  var qs=s==='A'?QA:QB,dd=s==='A'?dA:dB;
+  if(dd[i])return;dd[i]=!0;
+  var ok=v===qs[i][1],p=s.toLowerCase(),
+      card=document.getElementById(p+i),
+      res=document.getElementById('r'+p+i),
+      btns=document.getElementById('b'+p+i);
+  var bb=btns.querySelectorAll('button');for(var x=0;x<bb.length;x++)bb[x].disabled=!0;
+  card.classList.remove('now');
+  if(ok){
+    if(s==='A')sA++;else sB++;
+    card.classList.add('ok');res.className='qres show cg pop';
+    res.innerHTML='✅ <span>מעולה! תשובה נכונה!</span>';miniCf(card);
+  }else{
+    card.classList.add('no','shake');res.className='qres show cw pop';
+    var lb=s==='A'?(qs[i][1]?'נכון 👍':'לא נכון 👎'):(qs[i][1]?'נכון ✔️':'לא נכון ✖️');
+    res.innerHTML='❌ <span>טעות! התשובה הנכונה: '+lb+'</span>';
+  }
+  card.classList.add('done');upSc();
+  if(s==='A'){curA=dA.indexOf(!1);if(curA!==-1){var n=document.getElementById('a'+curA);n.classList.add('now');setTimeout(function(){n.scrollIntoView({behavior:'smooth',block:'center'})},350);}}
+  else{var nb=dB.indexOf(!1);if(nb!==-1)setTimeout(function(){document.getElementById('b'+nb).scrollIntoView({behavior:'smooth',block:'center'})},350);}
+  if(dA.every(Boolean)&&dB.every(Boolean))setTimeout(showFin,800);
+}
+
+function upSc(){document.getElementById('sc').textContent=sA+sB;document.getElementById('sA').textContent=sA;document.getElementById('sB').textContent=sB;}
+
+document.getElementById('mBtn').onclick=function(){setM('buttons')};
+document.getElementById('mCam').onclick=function(){setM('camera')};
+function setM(m){
+  mode=m;
+  document.getElementById('mBtn').classList.toggle('on',m==='buttons');
+  document.getElementById('mCam').classList.toggle('on',m==='camera');
+  for(var i=0;i<QA.length;i++){if(!dA[i]){var b=document.getElementById('ba'+i);if(b)b.classList.toggle('hidden',m==='camera');}}
+}
+
+function showFin(){
+  var t=sA+sB,p=Math.round(t/T*100);
+  document.getElementById('finBox').classList.add('show');
+  document.getElementById('fsc').textContent=t+' / '+T+' ('+p+'%)';
+  document.getElementById('fA').textContent=sA;document.getElementById('fB').textContent=sB;
+  var st,ms;
+  if(p===100){st='🌟🌟🌟🌟🌟';ms='מושלם! אתם מכירים את הפרק בצורה מדהימה!';}
+  else if(p>=80){st='⭐⭐⭐⭐';ms='עבודה מצוינת! כמעט מושלם!';}
+  else if(p>=60){st='⭐⭐⭐';ms='טוב מאוד! נסו שוב לשפר!';}
+  else if(p>=40){st='⭐⭐';ms='לא רע! כדאי לחזור על הפרק!';}
+  else{st='⭐';ms='קראו שוב את הפרק ונסו שוב 💪';}
+  document.getElementById('fSt').textContent=st;document.getElementById('fMsg').textContent=ms;
+  document.getElementById('finBox').scrollIntoView({behavior:'smooth',block:'center'});bigCf();
+}
+
+document.getElementById('rstBtn').onclick=function(){
+  sA=0;sB=0;curA=0;dA.fill(!1);dB.fill(!1);upSc();
+  document.getElementById('finBox').classList.remove('show');build();
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+
+/* Confetti */
+var colors=['#f5365c','#43e97b','#667eea','#ffd93d','#f093fb','#38f9d7','#ff6b6b'];
+function bigCf(){var c=document.getElementById('cfc');for(var i=0;i<70;i++){var p=document.createElement('div');p.className='cfp';p.style.cssText='left:'+Math.random()*100+'%;background:'+colors[~~(Math.random()*7)]+';animation-delay:'+Math.random()*2+'s;animation-duration:'+(2+Math.random()*2)+'s;width:'+(8+Math.random()*8)+'px;height:'+(8+Math.random()*8)+'px';c.appendChild(p);}setTimeout(function(){c.innerHTML=''},5000);}
+function miniCf(el){var r=el.getBoundingClientRect(),c=document.getElementById('cfc');for(var i=0;i<8;i++){var p=document.createElement('div');p.className='cfp';p.style.cssText='left:'+(r.left+r.width/2+(Math.random()-.5)*80)+'px;top:'+r.top+'px;background:'+colors[~~(Math.random()*4)]+';animation-duration:'+(1+Math.random())+'s;width:9px;height:9px';c.appendChild(p);}}
+
+/* ===== CAMERA ===== */
+document.getElementById('camBtn').onclick=function(){camOn?stopCam():startCam()};
+
+function startCam(){
+  var gd=document.getElementById('gd');
+  gd.innerHTML='📷 מפעיל מצלמה<span class="dots"></span>';
+
+  navigator.mediaDevices.getUserMedia({video:true}).then(function(stream){
+    var vid=document.getElementById('vid');
+    vid.srcObject=stream;
+    return vid.play();
+  }).then(function(){
+    camOn=!0;
+    document.getElementById('camBtn').textContent='🔴 כיבוי מצלמה';
+    gd.innerHTML='⏳ טוען זיהוי ידיים<span class="dots"></span>';
+    initMP();
+  }).catch(function(e){
+    gd.textContent='❌ שגיאה: '+e.message;
+  });
+}
+
+function stopCam(){
+  var vid=document.getElementById('vid');
+  if(vid.srcObject){var t=vid.srcObject.getTracks();for(var i=0;i<t.length;i++)t[i].stop();vid.srcObject=null;}
+  if(mCam){mCam.stop();mCam=null;}
+  camOn=!1;
+  document.getElementById('camBtn').textContent='🎥 הפעלת מצלמה';
+  document.getElementById('gd').textContent='📷 המצלמה כבויה';
+}
+
+function initMP(){
+  if(typeof Hands==='undefined'){
+    document.getElementById('gd').textContent='❌ ספריית זיהוי לא נטענה';return;
+  }
+  mH=new Hands({locateFile:function(f){return 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/'+f;}});
+  mH.setOptions({maxNumHands:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
+  mH.onResults(onRes);
+
+  var vid=document.getElementById('vid');
+  mCam=new Camera(vid,{
+    onFrame:function(){if(mH)return mH.send({image:vid});},
+    width:320,height:240
+  });
+  mCam.start().then(function(){
+    document.getElementById('gd').textContent='✅ מוכן! הראו 👍 או 👎';
+  }).catch(function(){
+    // fallback: manual loop
+    manLoop();
+    document.getElementById('gd').textContent='✅ מוכן! הראו 👍 או 👎';
+  });
+}
+
+function manLoop(){
+  if(!camOn||!mH)return;
+  var vid=document.getElementById('vid');
+  if(vid.readyState>=2)mH.send({image:vid}).then(function(){if(camOn)requestAnimationFrame(manLoop);}).catch(function(){if(camOn)requestAnimationFrame(manLoop);});
+  else requestAnimationFrame(manLoop);
+}
+
+function onRes(r){
+  var cv=document.getElementById('overlay'),cx=cv.getContext('2d');
+  cx.clearRect(0,0,300,225);
+  if(!r.multiHandLandmarks||!r.multiHandLandmarks.length){
+    document.getElementById('gd').innerHTML='🖐️ הראו יד למצלמה';lastG=null;gCnt=0;return;
+  }
+  var lm=r.multiHandLandmarks[0];
+  // draw
+  cx.fillStyle='#43e97b';
+  for(var i=0;i<lm.length;i++){cx.beginPath();cx.arc(lm[i].x*300,lm[i].y*225,3,0,6.28);cx.fill();}
+  if(typeof drawConnectors!=='undefined')drawConnectors(cx,lm,HAND_CONNECTIONS,{color:'#38f9d7',lineWidth:2});
+
+  var g=gesture(lm);
+  if(g){
+    if(g===lastG)gCnt++;else{lastG=g;gCnt=1;}
+    document.getElementById('gd').innerHTML=g==='up'
+      ?'👍 <span style="color:#43e97b">נכון!</span> ('+gCnt+'/15)'
+      :'👎 <span style="color:#f5365c">לא נכון!</span> ('+gCnt+'/15)';
+    if(gCnt>=15&&mode==='camera'&&curA!==-1&&curA<QA.length&&!dA[curA]){
+      ans('A',curA,g==='up');gCnt=0;lastG=null;
+    }
+  }else{
+    document.getElementById('gd').innerHTML='🖐️ הראו 👍 או 👎';lastG=null;gCnt=0;
+  }
+}
+
+function gesture(l){
+  var tT=l[4],tM=l[2],iM=l[5];
+  var iC=l[8].y>l[6].y,mC=l[12].y>l[10].y,rC=l[16].y>l[14].y,pC=l[20].y>l[18].y;
+  var cur=iC&&mC&&rC&&pC;
+  var ext=Math.abs(tT.x-iM.x)>.05||Math.abs(tT.y-iM.y)>.08;
+  if(!ext)return null;
+  if(cur||(iC&&mC)){
+    if(tT.y<tM.y-.04)return'up';
+    if(tT.y>tM.y+.04)return'down';
+  }
+  return null;
+}
+
+build();
+</script>
+</body>
+</html>
